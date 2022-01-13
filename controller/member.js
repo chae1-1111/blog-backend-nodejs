@@ -190,7 +190,7 @@ memberCont.getName = (userkey, callback) => {
                             console.log("일치하는 사용자 없음");
                             callback(null, null);
                         } else {
-                            console.log("아이디 조회 성공");
+                            console.log("이름 조회 성공");
                             callback(null, result[0].name);
                         }
                     }
