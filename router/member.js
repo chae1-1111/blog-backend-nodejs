@@ -154,4 +154,27 @@ router.route("/name").get((req, res) => {
     });
 });
 
+router.route("/info").get((req, res) => {
+    const userid = req.query.userid;
+    const userkey = req.query.userkey;
+
+    const jsonData = {};
+    memberCont.getInfo(userid, userkey, (err, result) => {
+        if (err) {
+            jsonData.result = 400;
+            jsonData.resultMsg = err;
+        } else {
+            if (result != null) {
+                jsonData.result = 200;
+                jsonData.resultMsg = "회원정보 찾기 성공";
+                jsonData.member = result;
+            } else {
+                jsonData.result = 201;
+                jsonData.resultMsg = "일치하는 사용자 없음";
+            }
+        }
+        res.status(jsonData.result).json(jsonData);
+    });
+});
+
 module.exports = router;

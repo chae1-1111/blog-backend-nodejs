@@ -200,6 +200,40 @@ memberCont.getName = (userkey, callback) => {
     });
 };
 
+memberCont.getInfo = (userid, userkey, callback) => {
+    pool.getConnection((err, conn) => {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            console.log("DB 연결 성공!");
+            const sql = conn.query(
+                "select name, email from member where userkey = ? and userid = ?",
+                [userkey, userid],
+                (err, result) => {
+                    conn.release();
+                    if (err) {
+                        callback(err, null);
+                        return;
+                    } else {
+                        if (result.length == 0) {
+                            console.log("일치하는 사용자 없음");
+                            callback(null, null);
+                        } else {
+                            console.log("이름 조회 성공");
+                            const info = {
+                                name: result[0].name,
+                                email: result[0].email,
+                            };
+                            callback(null, info);
+                        }
+                    }
+                }
+            );
+        }
+    });
+};
+
 memberCont.encrypt = function (userpw, salt) {
     const hashPassword = crypto
         .createHash("sha512")
