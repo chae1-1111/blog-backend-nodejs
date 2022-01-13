@@ -118,7 +118,7 @@ memberCont.modify = (userkey, userid, userpw, email, callback) => {
             console.log("DB 연결 성공!");
             const encryptPw = memberCont.encrypt(userpw, salt);
             const sql = conn.query(
-                "update member set userpw = ? email = ? salt = ? where userid = ? and userkey = ?;",
+                "update member set userpw = ?, email = ?, salt = ? where userid = ? and userkey = ?;",
                 [encryptPw, email, salt, userid, userkey],
                 (err, result) => {
                     conn.release();
