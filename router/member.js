@@ -132,4 +132,26 @@ router.route("/findId").post((req, res) => {
     });
 });
 
+router.route("/name").get((req, res) => {
+    const userkey = req.query.userkey;
+
+    const jsonData = {};
+    memberCont.getName(userkey, (err, result) => {
+        if (err) {
+            jsonData.result = 400;
+            jsonData.resultMsg = err;
+        } else {
+            if (result != null) {
+                jsonData.result = 200;
+                jsonData.resultMsg = "아이디 찾기 성공";
+                jsonData.name = result;
+            } else {
+                jsonData.result = 201;
+                jsonData.resultMsg = "일치하는 사용자 없음";
+            }
+        }
+        res.status(jsonData.result).json(jsonData);
+    });
+});
+
 module.exports = router;
