@@ -65,13 +65,14 @@ router.route("/join").post((req, res) => {
 });
 
 router.route("/modify").post((req, res) => {
+    const userkey = req.body.userkey;
     const userid = req.body.userid;
     const userpw = req.body.userpw;
     const email = req.body.email;
 
     const jsonData = {};
 
-    memberCont.modify(userid, userpw, email, (err, result) => {
+    memberCont.modify(userkey, userid, userpw, email, (err, result) => {
         if (err) {
             jsonData.result = 400;
             jsonData.resultMsg = err;
